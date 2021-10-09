@@ -76,10 +76,8 @@ module.exports = {
 
   resolve: {
     alias: {
-      assets: path.resolve(__dirname, '..', 'assets'),
-      scss: path.resolve(__dirname, '..', 'scss'),
-      utils: path.resolve(__dirname, '..', 'src/utils'),
-      components: path.resolve(__dirname, '..', 'src/components')
+      '~': path.resolve(__dirname, '..', 'src'),
+      scss: path.resolve(__dirname, '..', 'scss')
     },
     plugins: [new TsconfigPathsPlugin({
       extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
@@ -89,7 +87,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'React App with Webpack',
+      title: 'Minesweeper',
       template: './index.html'
     })
   ]
