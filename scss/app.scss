@@ -1,3 +1,27 @@
+@import "core";
+@import "function";
+
+html {
+  height: 100%;
+  font-family: "Source Sans Pro", "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro",
+  "文泉驛微米黑", "WenQuanYi Micro Hei Light", "微軟正黑體",
+  "Microsoft JhengHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 body {
-  color: #555555;
+  height: 100%;
+  background-color: #e8dbb3;
+  color: #566d73;
+}
+
+:global {
+  #app {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: spacing-ratio(8);
+
+    > *:not(:last-child) {
+      margin-bottom: spacing-ratio(20);
+    }
+  }
 }

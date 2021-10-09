@@ -1,11 +1,13 @@
 import React from 'react'
 
-import Greeting from '~/components/Greeting'
-import Counter from '~/components/Counter'
+import Header from '~/components/Header'
+import Controls from '~/components/Controls'
+import MineMap from '~/components/MineMap'
 
 export default () => (
   <>
-    <Greeting name="Maru" />
-    <Counter />
+    <Header />
+    <Controls />
+    <MineMap />
   </>
 )

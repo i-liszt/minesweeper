@@ -1,0 +1,21 @@
+:global {
+  .d-flex {
+    display: flex;
+
+    &--fdc {
+      flex-direction: column;
+    }
+
+    &--aic {
+      align-items: center;
+    }
+
+    &--jcc {
+      justify-content: center;
+    }
+
+    &--jcsb {
+      justify-content: space-between;
+    }
+  }
+}

@@ -1,0 +1,3 @@
+@function spacing-ratio($num, $unit: 2px) {
+  @return $unit * $num
+}

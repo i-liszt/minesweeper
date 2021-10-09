@@ -1,0 +1,19 @@
+@import "../function";
+
+.mine-map {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cell {
+  $size: 44px;
+  width: $size;
+  height: $size;
+
+  border-radius: 6px;
+  border: 1px solid #555555;
+
+  &:not(:first-child) {
+    margin-top: spacing-ratio(3);
+  }
+}

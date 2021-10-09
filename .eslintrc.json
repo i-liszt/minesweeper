@@ -41,5 +41,5 @@
       "typescript": {}
     }
   },
-  "ignorePatterns": ["src/**/*.d.ts"]
+  "ignorePatterns": ["src/**/*.d.ts", "webpack/*.js"]
 }
