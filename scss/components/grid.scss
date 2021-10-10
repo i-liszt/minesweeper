@@ -1,0 +1,68 @@
+@import "../function";
+
+.grid {
+  overflow: hidden;
+
+  $size: 48px;
+  width: $size;
+  height: $size;
+  padding: spacing-ratio(4);
+
+  background-color: rgba(245, 240, 233);
+  box-shadow: 3px 3px 8px 0 rgba(0, 0, 0, .2), -3px -3px 8px 0 rgba(255, 255, 255, .4);
+  border-width: 0;
+  border-radius: 12px;
+  box-sizing: border-box;
+
+  text-align: center;
+  line-height: calc(#{$size} / 2 + .5rem);
+  font-weight: bolder;
+  cursor: pointer;
+
+  &--variant1 {
+    color: #2295f3;
+  }
+
+  &--variant2 {
+    color: #009788;
+  }
+
+  &--variant3 {
+    color: #ffc108;
+  }
+
+  &--variant4 {
+    color: #ff5622;
+  }
+
+  &--variant5 {
+    color: #2295f3;
+  }
+
+  &--variant6 {
+    color: #2295f3;
+  }
+
+  &--variant7 {
+    color: #2295f3;
+  }
+
+  &--variant8 {
+    color: #2295f3;
+  }
+
+  &--pressed {
+    box-shadow: inset 3px 3px 5px 0 rgba(176, 170, 156, .3),
+    inset -3px -3px 5px 0 rgba(245, 245, 245, .46);
+    cursor: auto;
+  }
+
+  &--marked:after {
+    content: "🚩";
+    font-size: 24px;
+  }
+
+  &--mine:after {
+    content: "💣";
+  }
+}

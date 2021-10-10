@@ -23,10 +23,11 @@
   "jest": {
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.ts",
-      "\\.(css|sass|scss|less)$": "<rootDir>/__mocks__/styleMock.ts"
+      "\\.(css|sass|scss|less)$": "identity-obj-proxy"
     }
   },
   "dependencies": {
+    "clsx": "^1.1.1",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
@@ -62,6 +63,7 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.2",
     "husky": "^7.0.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^27.2.5",
     "lint-staged": "^11.2.1",
     "mini-css-extract-plugin": "^2.4.2",
