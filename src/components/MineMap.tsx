@@ -1,23 +1,25 @@
 import React from 'react'
+
 import MineMapStyle from 'scss/components/mine-map.scss'
+import Grid from './Grid'
 
 const Columns: number = 6
 
-// eslint-disable-next-line
-const createRows = (column: number, rows: number) => Array.from({ length: rows }).map((_el, row: number) => <div key={`row_${column}_${row}`} className={MineMapStyle.cell} />)
+const createColumns = (row: number) => Array.from({ length: Columns }, (_el, column: number) => {
+  const isActive = Math.floor(Math.random() * 2 + 1) % 2 === 0
+  const isMine = Math.floor(Math.random() * 20 + 1) % 5 === 0
+  // eslint-disable-next-line
+  return <Grid key={`row_${row}_${column}`} number={Math.floor(Math.random() * 8 + 1)} isActive={isActive} isMine={isMine} showMine></Grid>
+})
 
-const createMap = (rows: number) => {
-  const columns = Array.from({ length: Columns }).map((_el, column: number) => (
-    // eslint-disable-next-line
-    <div key={`col_${column}`} className="column">
-      { createRows(column, rows) }
-    </div>
-  ))
-  return columns
-}
+const createMap = (rows: number) => Array.from({ length: rows }).map((_el, row: number) =>
+// eslint-disable-next-line
+   <div key={`row_${row}`} className={MineMapStyle.row}>
+     { createColumns(row) }
+   </div>)
 
 export default () => (
   <div className={MineMapStyle['mine-map']}>
-    { createMap(12) }
+    { createMap(8) }
   </div>
 )

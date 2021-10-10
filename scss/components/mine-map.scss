@@ -3,17 +3,15 @@
 .mine-map {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-.cell {
-  $size: 44px;
-  width: $size;
-  height: $size;
-
-  border-radius: 6px;
-  border: 1px solid #555555;
+.row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 
   &:not(:first-child) {
-    margin-top: spacing-ratio(3);
+    margin-top: spacing-ratio(4);
   }
 }

@@ -10,8 +10,8 @@ html {
 
 body {
   height: 100%;
-  background-color: #e8dbb3;
-  color: #566d73;
+  background-color: #f5f3e7;
+  color: #524d48;
 }
 
 :global {
@@ -19,6 +19,7 @@ body {
     max-width: 768px;
     margin: 0 auto;
     padding: spacing-ratio(8);
+    box-sizing: border-box;
 
     > *:not(:last-child) {
       margin-bottom: spacing-ratio(20);
