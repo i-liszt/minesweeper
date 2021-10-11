@@ -13,7 +13,7 @@ describe('Grid component props', () => {
     expect(container!.firstChild?.textContent).toBe('')
   })
 
-  test('should render with passing className', () => {
+  test('should render with given className', () => {
     const customClass: string = 'customClass'
     const { container } = render(<Grid className={customClass} />)
     expect(container!.firstChild).toHaveClass('grid', customClass)
@@ -49,28 +49,28 @@ describe('Grid component props', () => {
   })
 
   test('should trigger event "onClick"', () => {
-    const handleClick = jest.fn()
+    const handleClick: jest.Mock = jest.fn()
     const { container } = render(<Grid onClick={handleClick} />)
     fireEvent.click(container!.firstChild)
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
 
   test('should trigger event "onClick" only when inactive', () => {
-    const handleClick = jest.fn()
+    const handleClick: jest.Mock = jest.fn()
     const { container } = render(<Grid onClick={handleClick} isActive />)
     fireEvent.click(container!.firstChild)
     expect(handleClick).toHaveBeenCalledTimes(0)
   })
 
   test('should trigger event "onMarked" if defined', () => {
-    const handleMarked = jest.fn()
+    const handleMarked: jest.Mock = jest.fn()
     const { container } = render(<Grid onMarked={handleMarked} />)
     fireEvent.contextMenu(container!.firstChild)
     expect(handleMarked).toHaveBeenCalledTimes(1)
   })
 
   test('should trigger event "onMarked" only when inactive', () => {
-    const handleMarked = jest.fn()
+    const handleMarked: jest.Mock = jest.fn()
     const { container } = render(<Grid onMarked={handleMarked} isActive />)
     fireEvent.contextMenu(container!.firstChild)
     expect(handleMarked).toHaveBeenCalledTimes(0)
