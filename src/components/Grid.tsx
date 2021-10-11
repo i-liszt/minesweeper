@@ -58,7 +58,6 @@ const Grid = ({
 }
 
 Grid.propTypes = GridProps
-
 Grid.defaultProps = {
   className: '',
   number: undefined,
