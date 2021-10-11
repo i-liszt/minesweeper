@@ -77,7 +77,8 @@ module.exports = {
   resolve: {
     alias: {
       '~': path.resolve(__dirname, '..', 'src'),
-      scss: path.resolve(__dirname, '..', 'scss')
+      scss: path.resolve(__dirname, '..', 'scss'),
+      assets: path.resolve(__dirname, '..', 'assets')
     },
     plugins: [new TsconfigPathsPlugin({
       extensions: ['.js', '.jsx', '.json', '.ts', '.tsx']
