@@ -7,22 +7,28 @@ import React from 'react'
 import Timer from '../src/components/Timer'
 
 describe('Timer components props', () => {
+  test('should render with given className', () => {
+    const customClass: string = 'customClass'
+    const { container } = render(<Timer className={customClass} />)
+    expect(container!.firstChild).toHaveClass('info', customClass)
+  })
+
   test('should render with given seconds, and prepended 0', () => {
     const { container } = render(<Timer seconds={1} />)
-    const displayText = container!.querySelector('.timer__seconds')
+    const displayText: Element | null = container!.querySelector('.info__text')
     expect(displayText?.textContent).toBe('001')
   })
 
   test('should render "999+" when the seconds is over 999', () => {
     const { container } = render(<Timer seconds={1000} />)
-    const displayText = container!.querySelector('.timer__seconds')
+    const displayText: Element | null = container!.querySelector('.info__text')
     expect(displayText?.textContent).toBe('999+')
   })
 
   test('should displaying time change every second', () => {
     jest.useFakeTimers()
     const { container } = render(<Timer running />)
-    const displayTime = container!.querySelector('.timer__seconds')
+    const displayTime: Element | null = container!.querySelector('.info__text')
     expect(displayTime?.textContent).toBe('000')
 
     /*
@@ -38,7 +44,7 @@ describe('Timer components props', () => {
 
   test('should onChange triggered if defined', () => {
     jest.useFakeTimers()
-    const handleChange = jest.fn()
+    const handleChange: jest.Mock = jest.fn()
     render(<Timer running onChange={handleChange} />)
 
     act(() => {

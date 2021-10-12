@@ -1,6 +1,6 @@
 @import "../function";
 
-.timer {
+.info {
   display: flex;
   align-items: center;
 
@@ -18,7 +18,7 @@
     height: $size;
   }
 
-  &__seconds {
+  &__text {
     margin-left: auto;
     transform: translateY(1px);
   }

@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import TimerStyle from 'scss/components/timer.scss'
+import clsx from 'clsx'
+import InfoStyle from 'scss/components/info.scss'
 import timerIcon from 'assets/img/ic-stopwatch.png'
 
 const TimerProps = {
+  className: PropTypes.string,
   seconds: PropTypes.number,
   running: PropTypes.bool,
   onChange: PropTypes.func,
 }
 
-const Timer = ({ seconds, running, onChange }: PropTypes.InferProps<typeof TimerProps>) => {
+const Timer = ({
+  className, seconds, running, onChange,
+}: PropTypes.InferProps<typeof TimerProps>) => {
   const [time, setTime] = useState(seconds || 0)
   const [prevSeconds, setPrevSeconds] = useState(0)
   const displaySeconds = (time || 0).toString().padStart(3, '0')
@@ -37,13 +41,13 @@ const Timer = ({ seconds, running, onChange }: PropTypes.InferProps<typeof Timer
   }
 
   return (
-    <div className={TimerStyle.timer}>
+    <div className={clsx(InfoStyle.info, className)}>
       <img
-        className={TimerStyle.timer__icon}
+        className={InfoStyle.info__icon}
         src={timerIcon}
         alt=""
       />
-      <span className={TimerStyle.timer__seconds}>
+      <span className={InfoStyle.info__text}>
         { time > 999 ? '999+' : displaySeconds }
       </span>
     </div>
@@ -52,6 +56,7 @@ const Timer = ({ seconds, running, onChange }: PropTypes.InferProps<typeof Timer
 
 Timer.propTypes = TimerProps
 Timer.defaultProps = {
+  className: undefined,
   seconds: 0,
   running: false,
   onChange: undefined,
