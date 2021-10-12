@@ -1,8 +1,15 @@
+@import "../function";
+
 .controls {
   display: flex;
   align-items: center;
+  justify-content: center;
 
-  &__mines {
-    margin-left: auto;
+  > *:not(:first-child) {
+    margin-left: spacing-ratio(4);
+  }
+
+  &__flags {
+    width: 75px !important;
   }
 }
