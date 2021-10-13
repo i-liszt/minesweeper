@@ -51,7 +51,7 @@ const MineMap = ({
     if (state.currentGrid && onChange) {
       onChange(state.currentGrid, state.map)
     }
-  }, [state.currentGrid, onChange])
+  }, [state.currentGrid])
 
   const handleClick = ({ row, column }: { row: number, column: number }) => {
     state.map[row][column].clicked = true
@@ -69,6 +69,13 @@ const MineMap = ({
       ...prevState,
       currentGrid: { ...state.map[row][column] },
     }))
+  }
+
+  if (rows !== state.map.length || columns !== state.map[0].length) {
+    setState({
+      currentGrid: undefined,
+      map: createMapFactory(rows, columns),
+    })
   }
 
   const mapUi = state.map.map((rowData: GridData[], row: number) => (

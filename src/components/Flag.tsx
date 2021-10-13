@@ -10,10 +10,12 @@ const FlagProps = {
 
 const Flag = ({ className, remainFlags }: PropTypes.InferProps<typeof FlagProps>) => (
   <div className={clsx(InfoStyle.info, className)}>
-    <img className={InfoStyle.info__icon} src={FlagIcon} alt="" />
-    <span className={InfoStyle.info__text}>
-      { remainFlags || '0' }
-    </span>
+    <div className={InfoStyle.info__inner}>
+      <img className={InfoStyle.info__icon} src={FlagIcon} alt="" />
+      <span className={InfoStyle.info__text}>
+        { remainFlags || '0' }
+      </span>
+    </div>
   </div>
 )
 
