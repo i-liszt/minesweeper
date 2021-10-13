@@ -3,7 +3,6 @@
  */
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
-import React from 'react'
 
 import Grid from '../src/components/Grid'
 
@@ -19,18 +18,18 @@ describe('Grid component props', () => {
     expect(container!.firstChild).toHaveClass('grid', customClass)
   })
 
-  test('should render with className "grid--pressed" when active', () => {
-    const { container } = render(<Grid isActive />)
+  test('should render with className "grid--pressed" when clicked', () => {
+    const { container } = render(<Grid clicked />)
     expect(container!.firstChild).toHaveClass('grid--pressed')
   })
 
-  test('should render without number when inactive', () => {
+  test('should render without number when unclicked', () => {
     const { container } = render(<Grid number={1} />)
     expect(container!.firstChild?.textContent).toBe('')
   })
 
-  test('should render with number when active', () => {
-    const { container } = render(<Grid number={1} isActive />)
+  test('should render with number when clicked', () => {
+    const { container } = render(<Grid number={1} clicked />)
     expect(container!.firstChild?.textContent).toBe('1')
   })
 
@@ -55,9 +54,9 @@ describe('Grid component props', () => {
     expect(handleClick).toHaveBeenCalledTimes(1)
   })
 
-  test('should trigger event "onClick" only when inactive', () => {
+  test('should trigger event "onClick" only when unclicked', () => {
     const handleClick: jest.Mock = jest.fn()
-    const { container } = render(<Grid onClick={handleClick} isActive />)
+    const { container } = render(<Grid onClick={handleClick} clicked />)
     fireEvent.click(container!.firstChild)
     expect(handleClick).toHaveBeenCalledTimes(0)
   })
@@ -69,9 +68,9 @@ describe('Grid component props', () => {
     expect(handleMarked).toHaveBeenCalledTimes(1)
   })
 
-  test('should trigger event "onMarked" only when inactive', () => {
+  test('should trigger event "onMarked" only when unclicked', () => {
     const handleMarked: jest.Mock = jest.fn()
-    const { container } = render(<Grid onMarked={handleMarked} isActive />)
+    const { container } = render(<Grid onMarked={handleMarked} clicked />)
     fireEvent.contextMenu(container!.firstChild)
     expect(handleMarked).toHaveBeenCalledTimes(0)
   })

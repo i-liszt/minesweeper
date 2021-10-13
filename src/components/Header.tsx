@@ -1,4 +1,3 @@
-import React from 'react'
 import HeaderStyle from 'scss/components/header.scss'
 
 export default () => (

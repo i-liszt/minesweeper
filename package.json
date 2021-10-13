@@ -11,19 +11,20 @@
     "clean:all": "rm -r ./dist ./node_modules",
     "lint": "eslint --ignore-path .gitignore src > lint.log",
     "lint:fix": "eslint --ignore-path .gitignore --fix src > lint.log",
-    "lint:staged": "lint-staged",
+    "lint:staged": "eslint --ignore-path .gitignore --fix src",
     "test:unit": "jest --verbose --coverage",
     "prepare": "husky install"
   },
   "author": "Liszt",
   "license": "MIT",
   "lint-staged": {
-    "*.{js,ts,jsx,tsx}": "eslint --ignore-path .gitignore --fix src"
+    "*.{js,ts,jsx,tsx}": "yarn lint:staged"
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.ts",
-      "\\.(css|sass|scss|less)$": "identity-obj-proxy"
+      "^~(.*)$": "<rootDir>/src/$1",
+      "\\.(css|sass|scss|less)$": "identity-obj-proxy",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.ts"
     }
   },
   "dependencies": {
