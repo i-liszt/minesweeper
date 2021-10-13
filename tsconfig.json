@@ -31,7 +31,7 @@
     "noEmit": true,
     "declaration": true,
     "experimentalDecorators": true,
-    "jsx": "react"
+    "jsx": "react-jsx"
   },
   "include": [
     "src",

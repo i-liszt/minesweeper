@@ -16,13 +16,14 @@ body {
 
 :global {
   #app {
-    max-width: 768px;
+    max-width: 375px;
+    height: 100vh;
     margin: 0 auto;
     padding: spacing-ratio(8);
     box-sizing: border-box;
 
     > *:not(:last-child) {
-      margin-bottom: spacing-ratio(20);
+      margin-bottom: spacing-ratio(16);
     }
   }
 }

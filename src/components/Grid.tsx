@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import GridStyle from 'scss/components/grid.scss'
@@ -6,7 +6,7 @@ import GridStyle from 'scss/components/grid.scss'
 const GridProps = {
   className: PropTypes.string,
   number: PropTypes.number,
-  isActive: PropTypes.bool,
+  clicked: PropTypes.bool,
   isMine: PropTypes.bool,
   showMine: PropTypes.bool,
   onClick: PropTypes.func,
@@ -14,13 +14,13 @@ const GridProps = {
 }
 
 const Grid = ({
-  className, number, isActive, isMine, showMine, onClick, onMarked,
+  className, number, clicked, isMine, showMine, onClick, onMarked,
 }: PropTypes.InferProps<typeof GridProps>) => {
   const [marked, setMarked] = useState(false)
 
   const gridClass: string = clsx(
     GridStyle.grid, {
-      [GridStyle['grid--pressed']]: isActive,
+      [GridStyle['grid--pressed']]: clicked,
       [GridStyle['grid--marked']]: marked,
       [GridStyle['grid--mine']]: showMine && isMine,
       [GridStyle['grid--variant1']]: number! <= 2,
@@ -35,10 +35,6 @@ const Grid = ({
     e.stopPropagation()
     e.preventDefault()
 
-    if (isActive) {
-      return
-    }
-
     setMarked(!marked)
     if (onMarked) {
       onMarked(!marked, e)
@@ -49,10 +45,10 @@ const Grid = ({
     <button
       type="button"
       className={gridClass}
-      onClick={(!isActive && onClick) ? onClick : undefined}
-      onContextMenu={handleContextMenu}
+      onClick={!clicked ? onClick : undefined}
+      onContextMenu={!clicked ? handleContextMenu : undefined}
     >
-      { (isActive && !isMine) ? (number || '') : '' }
+      { (clicked && !isMine) ? (number || '') : '' }
     </button>
   )
 }
@@ -61,7 +57,7 @@ Grid.propTypes = GridProps
 Grid.defaultProps = {
   className: '',
   number: undefined,
-  isActive: false,
+  clicked: false,
   isMine: false,
   showMine: false,
   onClick: undefined,
