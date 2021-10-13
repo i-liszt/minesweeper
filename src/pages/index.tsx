@@ -1,11 +1,12 @@
 import { useState } from 'react'
+import clsx from 'clsx'
+import MineMapStyle from 'scss/components/mine-map.scss'
 import Controls from '~/components/Controls'
 import MineMap, { GridData } from '~/components/MineMap'
 import { Level, grids } from '~/constants/level'
 
 type AppState = {
   level: string,
-  seconds: number,
   showMine: boolean,
   running: boolean
 }
@@ -13,14 +14,19 @@ type AppState = {
 export default () => {
   const [state, setState] = useState<AppState>({
     level: Level.Medium,
-    seconds: 0,
     showMine: false,
     running: false,
   })
 
-  const handleChange = (grid: GridData, newMap: GridData[][]) => {
-    // TODO
-    console.log(grid, newMap)
+  const handleLevelChange = (level: string) => {
+    setState({
+      level,
+      showMine: false,
+      running: false,
+    })
+  }
+
+  const handleChange = (grid: GridData) => {
     if (grid && !state.running && !state.showMine) {
       setState((prevState) => ({
         ...prevState,
@@ -37,10 +43,17 @@ export default () => {
 
   return (
     <>
-      <Controls seconds={state.seconds} running={state.running} />
+      <Controls
+        running={state.running}
+        onLevelChange={handleLevelChange}
+      />
       <MineMap
-        rows={grids[Level.Easy].row}
-        columns={grids[Level.Easy].column}
+        className={clsx({
+          [MineMapStyle['mine-map--easy']]: state.level === Level.Easy,
+          [MineMapStyle['mine-map--hard']]: state.level === Level.Hard,
+        })}
+        rows={grids[state.level as keyof typeof grids].row}
+        columns={grids[state.level as keyof typeof grids].column}
         showMine={state.showMine}
         onChange={handleChange}
       />

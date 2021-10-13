@@ -4,6 +4,18 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+
+  &--easy .column {
+    $large-size: 48px;
+    width: $large-size;
+    height: $large-size;
+  }
+
+  &--hard .column {
+    $large-size: 36px;
+    width: $large-size;
+    height: $large-size;
+  }
 }
 
 .row {

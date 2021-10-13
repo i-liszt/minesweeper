@@ -42,14 +42,16 @@ const Timer = ({
 
   return (
     <div className={clsx(InfoStyle.info, className)}>
-      <img
-        className={InfoStyle.info__icon}
-        src={timerIcon}
-        alt=""
-      />
-      <span className={InfoStyle.info__text}>
-        { time > 999 ? '999+' : displaySeconds }
-      </span>
+      <div className={InfoStyle.info__inner}>
+        <img
+          className={InfoStyle.info__icon}
+          src={timerIcon}
+          alt=""
+        />
+        <span className={InfoStyle.info__text}>
+          { time > 999 ? '999+' : displaySeconds }
+        </span>
+      </div>
     </div>
   )
 }

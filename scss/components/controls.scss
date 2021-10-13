@@ -3,13 +3,20 @@
 .controls {
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  > *:not(:first-child) {
-    margin-left: spacing-ratio(4);
-  }
+  justify-content: space-between;
 
   &__flags {
     width: 75px !important;
+  }
+
+  &__level {
+    width: 100px !important;
+    height: 44px;
+
+    > select {
+      background: transparent;
+      border: 0;
+      font-size: .85rem;
+    }
   }
 }
