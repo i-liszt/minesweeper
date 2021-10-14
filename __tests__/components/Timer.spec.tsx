@@ -3,9 +3,9 @@
  */
 import '@testing-library/jest-dom'
 import { render, act } from '@testing-library/react'
-import Timer from '../src/components/Timer'
+import Timer from '~/components/Timer'
 
-describe('Timer components props', () => {
+describe('Component: Timer components props', () => {
   test('should render with given className', () => {
     const customClass: string = 'customClass'
     const { container } = render(<Timer className={customClass} />)

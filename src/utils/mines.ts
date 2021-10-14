@@ -6,8 +6,8 @@ export const createMapFactory = (rows: number, columns: number): GridData[][] =>
       index: `${row}_${column}`,
       adjacentMines: undefined,
       isMine: false,
-      clicked: false,
-      marked: false,
+      explored: false,
+      flagged: false,
     }))
   })
 }
@@ -52,14 +52,14 @@ export const getAdjacentMines = (row: number, column: number, map: GridData[][])
 }
 
 export const exploreGrid = (grid: GridData, map: GridData[][]): void => {
-  if (grid.clicked || grid.marked) {
+  if (grid.explored || grid.flagged) {
     return
   }
 
   // eslint-disable-next-line no-param-reassign
-  grid.clicked = true
+  grid.explored = true
   // eslint-disable-next-line no-param-reassign
-  grid.marked = false
+  grid.flagged = false
   if (grid.isMine) {
     // TODO
   } else {
@@ -85,7 +85,7 @@ export const exploreAdjacentGrid = (row: number, column: number, map: GridData[]
         ? map[row + rowOffset][column + columnOffset]
         : undefined
 
-      if (grid && !grid.clicked && !grid.marked) {
+      if (grid && !grid.explored && !grid.flagged) {
         exploreGrid(grid, map)
       }
     }

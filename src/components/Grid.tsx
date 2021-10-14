@@ -1,54 +1,112 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import GridStyle from 'scss/components/grid.scss'
+import FlagIcon from 'assets/img/ic-flag.svg'
+import BombIcon from 'assets/img/ic-bomb.svg'
 
 const GridProps = {
   className: PropTypes.string,
-  number: PropTypes.number,
-  clicked: PropTypes.bool,
+  adjacentMines: PropTypes.number,
   isMine: PropTypes.bool,
+  explored: PropTypes.bool,
+  flagged: PropTypes.bool,
   showMine: PropTypes.bool,
   onClick: PropTypes.func,
-  onMarked: PropTypes.func,
+  onFlagged: PropTypes.func,
 }
 
 const Grid = ({
-  className, number, clicked, isMine, showMine, onClick, onMarked,
+  className, adjacentMines, isMine, explored, flagged, showMine, onClick, onFlagged,
 }: PropTypes.InferProps<typeof GridProps>) => {
-  const [marked, setMarked] = useState(false)
+  const [state, setState] = useState({
+    clicked: explored,
+    marked: flagged,
+  })
+  const [prevExplored, setPrevExplored] = useState(null)
+  const [prevFlagged, setPrevFlagged] = useState(null)
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    if (state.clicked || state.marked || showMine) {
+      return
+    }
+
+    setState({
+      clicked: true,
+      marked: false,
+    })
+
+    if (onClick) {
+      onClick(true, { explored: true, flagged: false }, e)
+    }
+  }
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    if (state.clicked || showMine) {
+      return
+    }
+
+    setState((prevState) => ({
+      ...prevState,
+      marked: !prevState.marked,
+    }))
+
+    if (onFlagged) {
+      onFlagged(!state.marked, { explored: false, flagged: !state.marked }, e)
+    }
+  }
 
   const gridClass: string = clsx(
     GridStyle.grid, {
-      [GridStyle['grid--pressed']]: clicked,
-      [GridStyle['grid--marked']]: marked,
-      [GridStyle['grid--mine']]: showMine && isMine,
-      [GridStyle['grid--variant1']]: number! <= 2,
-      [GridStyle['grid--variant2']]: number! > 2 && number! <= 4,
-      [GridStyle['grid--variant3']]: number! > 4 && number! <= 6,
-      [GridStyle['grid--variant4']]: number! > 6 && number! <= 8,
+      [GridStyle['grid--explored']]: state.clicked,
+      [GridStyle['grid--variant1']]: adjacentMines! <= 2,
+      [GridStyle['grid--variant2']]: adjacentMines! > 2 && adjacentMines! <= 4,
+      [GridStyle['grid--variant3']]: adjacentMines! > 4 && adjacentMines! <= 6,
+      [GridStyle['grid--variant4']]: adjacentMines! > 6 && adjacentMines! <= 8,
     },
     className,
   )
 
-  const handleContextMenu = (e: Event) => {
-    e.stopPropagation()
-    e.preventDefault()
+  if (prevExplored !== explored) {
+    setState({
+      clicked: explored,
+      marked: state.marked,
+    })
+    setPrevExplored(explored)
+  }
 
-    setMarked(!marked)
-    if (onMarked) {
-      onMarked(!marked, e)
-    }
+  if (prevFlagged !== flagged) {
+    setState({
+      clicked: state.clicked,
+      marked: flagged,
+    })
+    setPrevFlagged(flagged)
   }
 
   return (
     <button
       type="button"
       className={gridClass}
-      onClick={!clicked ? onClick : undefined}
-      onContextMenu={!clicked ? handleContextMenu : undefined}
+      onClick={handleClick}
+      onContextMenu={handleContextMenu}
     >
-      { (clicked && !isMine) ? (number || '') : '' }
+      {
+        (!state.clicked && state.marked)
+          ? <img className={GridStyle.grid__icon} src={FlagIcon} alt="flag" />
+          : null
+      }
+      {
+        (isMine && !state.marked && showMine)
+          ? <img className={GridStyle.grid__icon} src={BombIcon} alt="mine" />
+          : null
+      }
+      { (state.clicked && !isMine) ? (adjacentMines || '') : null }
     </button>
   )
 }
@@ -56,12 +114,13 @@ const Grid = ({
 Grid.propTypes = GridProps
 Grid.defaultProps = {
   className: '',
-  number: undefined,
-  clicked: false,
+  adjacentMines: undefined,
   isMine: false,
+  explored: false,
+  flagged: false,
   showMine: false,
   onClick: undefined,
-  onMarked: undefined,
+  onFlagged: undefined,
 }
 
 export default Grid

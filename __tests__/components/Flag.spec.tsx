@@ -3,9 +3,9 @@
  */
 import '@testing-library/jest-dom'
 import { render } from '@testing-library/react'
-import Flag from '../src/components/Flag'
+import Flag from '~/components/Flag'
 
-describe('Flag props', () => {
+describe('Component: Flag props', () => {
   test('should render with given className', () => {
     const customClass: string = 'customClass'
     const { container } = render(<Flag className={customClass} />)
@@ -14,7 +14,7 @@ describe('Flag props', () => {
 
   test('should render with remainFlags', () => {
     const remainFlags: number = 3
-    const { container } = render(<Flag remainFlags={remainFlags} />)
+    const { container } = render(<Flag flags={remainFlags} />)
     const text = container.querySelector('.info__text')
     expect(text?.textContent).toBe(String(remainFlags))
   })

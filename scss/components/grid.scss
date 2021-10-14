@@ -15,7 +15,7 @@
   box-sizing: border-box;
 
   text-align: center;
-  line-height: calc(#{$size} / 2 + .5rem);
+  line-height: 100%;
   font-weight: bolder;
   cursor: pointer;
 
@@ -51,18 +51,15 @@
     color: #2295f3;
   }
 
-  &--pressed {
+  &--explored {
     box-shadow: inset 3px 3px 8px 0 rgba(176, 170, 156, .3),
     inset -3px -3px 8px 0 rgba(245, 245, 245, .46);
     cursor: auto;
   }
 
-  &--marked:after {
-    content: "🚩";
-    font-size: 24px;
-  }
-
-  &--mine:after {
-    content: "💣";
+  &__icon {
+    $size: 20px;
+    width: $size;
+    height: $size;
   }
 }

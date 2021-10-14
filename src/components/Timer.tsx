@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import InfoStyle from 'scss/components/info.scss'
-import timerIcon from 'assets/img/ic-stopwatch.png'
+import TimerIcon from 'assets/img/ic-timer.svg'
 
 const TimerProps = {
   className: PropTypes.string,
@@ -45,7 +45,7 @@ const Timer = ({
       <div className={InfoStyle.info__inner}>
         <img
           className={InfoStyle.info__icon}
-          src={timerIcon}
+          src={TimerIcon}
           alt=""
         />
         <span className={InfoStyle.info__text}>
