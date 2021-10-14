@@ -8,6 +8,6 @@ declare type GridData = {
   index: string,
   adjacentMines?: number,
   isMine: boolean,
-  clicked: boolean,
-  marked: boolean
+  explored: boolean,
+  flagged: boolean
 }

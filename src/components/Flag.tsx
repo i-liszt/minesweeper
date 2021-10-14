@@ -1,19 +1,19 @@
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import InfoStyle from 'scss/components/info.scss'
-import FlagIcon from 'assets/img/ic-flag.png'
+import FlagIcon from 'assets/img/ic-flag.svg'
 
 const FlagProps = {
   className: PropTypes.string,
-  remainFlags: PropTypes.number,
+  flags: PropTypes.number,
 }
 
-const Flag = ({ className, remainFlags }: PropTypes.InferProps<typeof FlagProps>) => (
+const Flag = ({ className, flags }: PropTypes.InferProps<typeof FlagProps>) => (
   <div className={clsx(InfoStyle.info, className)}>
     <div className={InfoStyle.info__inner}>
       <img className={InfoStyle.info__icon} src={FlagIcon} alt="" />
       <span className={InfoStyle.info__text}>
-        { remainFlags || '0' }
+        { flags || '0' }
       </span>
     </div>
   </div>
@@ -22,7 +22,7 @@ const Flag = ({ className, remainFlags }: PropTypes.InferProps<typeof FlagProps>
 Flag.propTypes = FlagProps
 Flag.defaultProps = {
   className: undefined,
-  remainFlags: 0,
+  flags: 0,
 }
 
 export default Flag

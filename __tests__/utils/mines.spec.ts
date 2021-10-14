@@ -1,4 +1,3 @@
-import { GridData } from '~/components/MineMap'
 import {
   createMapFactory,
   placeSingleMine,
@@ -51,10 +50,10 @@ describe('Utils: MineMap utils', () => {
     expect(count).toBe(totalMines)
   })
 
-  test('should change the state of a grid to clicked: true & marked: false when clicked', () => {
+  test('should change the state of a grid to explored: true & flagged: false when explored', () => {
     const grid: GridData = map[1][1]
     exploreGrid(grid, map)
-    expect(grid.clicked).toBe(true)
-    expect(grid.marked).toBe(false)
+    expect(grid.explored).toBe(true)
+    expect(grid.flagged).toBe(false)
   })
 })

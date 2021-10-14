@@ -3,15 +3,18 @@
  */
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
-import MineMap from '../src/components/MineMap'
+import MineMap from '~/components/MineMap'
 
-describe('MineMap props', () => {
+describe('Component: MineMap props', () => {
   let container: HTMLElement
   const customClass: string = 'customClass'
   const rows = 8
   const columns = 6
+  const mines = 0
   beforeEach(() => {
-    container = render(<MineMap rows={rows} columns={columns} className={customClass} />).container
+    container = render(
+      <MineMap rows={rows} columns={columns} minesCount={mines} className={customClass} />,
+    ).container
   })
 
   test('should render with given className', () => {
@@ -29,15 +32,25 @@ describe('MineMap props', () => {
     expect(gridElements.length).toBe(rows * columns)
   })
 
-  test('should trigger event "onChange" when a grid is clicked or marked', () => {
+  test('should trigger event "onChange" when a grid is explored', () => {
     const handleChange = jest.fn()
-    container = render(<MineMap rows={rows} columns={columns} onChange={handleChange} />).container
+    container = render(
+      <MineMap rows={rows} columns={columns} minesCount={mines} onChange={handleChange} />,
+    ).container
     const grid = container.querySelectorAll('.grid')
 
     fireEvent.click(grid[0])
     expect(handleChange).toHaveBeenCalledTimes(1)
+  })
+
+  test('should trigger event "onChange" when a grid is flagged', () => {
+    const handleChange = jest.fn()
+    container = render(
+      <MineMap rows={rows} columns={columns} minesCount={mines} onChange={handleChange} />,
+    ).container
+    const grid = container.querySelectorAll('.grid')
 
     fireEvent.contextMenu(grid[1])
-    expect(handleChange).toHaveBeenCalledTimes(2)
+    expect(handleChange).toHaveBeenCalledTimes(1)
   })
 })
