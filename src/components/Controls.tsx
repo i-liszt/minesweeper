@@ -54,7 +54,7 @@ const Controls = ({
   if (active !== running) {
     setState((prevState) => ({
       ...prevState,
-      time: 0,
+      time: running ? 0 : prevState.time,
       active: running,
     }))
   }
@@ -68,7 +68,7 @@ const Controls = ({
       />
       <Flag
         className={ControlsStyle.controls__flags}
-        remainFlags={remainFlags}
+        flags={remainFlags}
       />
       <div className={clsx(InfoStyle.info, ControlsStyle.controls__level)}>
         <select
