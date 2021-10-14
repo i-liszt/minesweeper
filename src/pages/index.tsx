@@ -1,42 +1,74 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import MineMapStyle from 'scss/components/mine-map.scss'
 import Controls from '~/components/Controls'
-import MineMap, { GridData } from '~/components/MineMap'
-import { Level, grids } from '~/constants/level'
+import MineMap from '~/components/MineMap'
+import { isWin, isLose } from '~/utils/game'
+import { Level, levelConfig } from '~/constants/level'
+import { Status } from '~/constants/status'
 
 type AppState = {
   level: string,
-  showMine: boolean,
-  running: boolean
+  remainFlags: number,
+  status: Status
 }
 
 export default () => {
   const [state, setState] = useState<AppState>({
     level: Level.Medium,
-    showMine: false,
-    running: false,
+    remainFlags: levelConfig[Level.Medium].mines,
+    status: Status.Stop,
   })
+
+  useEffect(() => {
+    // TODO: modal
+    if (state.status === Status.Lose) {
+      alert('You lose')
+    } else if (state.status === Status.Win) {
+      alert('You win')
+    }
+  }, [state.status])
 
   const handleLevelChange = (level: string) => {
     setState({
       level,
-      showMine: false,
-      running: false,
+      remainFlags: levelConfig[level as keyof typeof levelConfig].mines,
+      status: Status.Stop,
     })
   }
 
-  const handleChange = (grid: GridData) => {
-    if (grid && !state.running && !state.showMine) {
+  const handleChange = (
+    grid: GridData,
+    prevGrid: GridData,
+    { minesList }: ({ minesList: GridData[] }),
+  ) => {
+    if (!grid) {
+      return
+    }
+
+    if (state.status !== Status.Running) {
       setState((prevState) => ({
         ...prevState,
-        running: true,
+        remainFlags: grid.flagged ? prevState.remainFlags - 1 : prevState.remainFlags,
+        status: grid.explored && grid.isMine ? Status.Stop : Status.Running,
       }))
-    } else if (grid?.isMine) {
+    } else if (grid) {
+      const isFlagChanged: boolean = grid.flagged !== prevGrid.flagged
+
+      let status: Status = Status.Running
+      if (isLose(grid)) {
+        status = Status.Lose
+      } else if (isWin(minesList)) {
+        status = Status.Win
+      }
+
       setState((prevState) => ({
         ...prevState,
-        showMine: true,
-        running: false,
+        // eslint-disable-next-line no-nested-ternary
+        remainFlags: (isFlagChanged && grid.flagged)
+          ? prevState.remainFlags - 1
+          : (isFlagChanged && !grid.flagged) ? prevState.remainFlags + 1 : prevState.remainFlags,
+        status,
       }))
     }
   }
@@ -44,7 +76,8 @@ export default () => {
   return (
     <>
       <Controls
-        running={state.running}
+        remainFlags={state.remainFlags}
+        running={state.status === Status.Running}
         onLevelChange={handleLevelChange}
       />
       <MineMap
@@ -52,9 +85,10 @@ export default () => {
           [MineMapStyle['mine-map--easy']]: state.level === Level.Easy,
           [MineMapStyle['mine-map--hard']]: state.level === Level.Hard,
         })}
-        rows={grids[state.level as keyof typeof grids].row}
-        columns={grids[state.level as keyof typeof grids].column}
-        showMine={state.showMine}
+        rows={levelConfig[state.level as keyof typeof levelConfig].row}
+        columns={levelConfig[state.level as keyof typeof levelConfig].column}
+        minesCount={levelConfig[state.level as keyof typeof levelConfig].mines}
+        showMine={state.status === Status.Lose}
         onChange={handleChange}
       />
     </>

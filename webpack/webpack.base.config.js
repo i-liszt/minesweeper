@@ -68,8 +68,7 @@ module.exports = {
               name: 'img/[hash].[ext]'
             }
           },
-        ],
-        type: 'javascript/auto'
+        ]
       }
     ]
   },
