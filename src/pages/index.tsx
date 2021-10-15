@@ -53,23 +53,26 @@ export default () => {
         status: grid.explored && grid.isMine ? Status.Stop : Status.Running,
       }))
     } else if (grid) {
-      const isFlagChanged: boolean = grid.flagged !== prevGrid.flagged
-
-      let status: Status = Status.Running
-      if (isLose(grid)) {
-        status = Status.Lose
-      } else if (isWin(minesList)) {
-        status = Status.Win
-      }
-
-      setState((prevState) => ({
-        ...prevState,
+      setState((prevState) => {
+        const isFlagChanged: boolean = grid.flagged !== prevGrid.flagged
         // eslint-disable-next-line no-nested-ternary
-        remainFlags: (isFlagChanged && grid.flagged)
+        const newRemainFlags: number = (isFlagChanged && grid.flagged)
           ? prevState.remainFlags - 1
-          : (isFlagChanged && !grid.flagged) ? prevState.remainFlags + 1 : prevState.remainFlags,
-        status,
-      }))
+          : (isFlagChanged && !grid.flagged) ? prevState.remainFlags + 1 : prevState.remainFlags
+
+        let status: Status = Status.Running
+        if (isLose(grid)) {
+          status = Status.Lose
+        } else if (isWin(minesList, newRemainFlags)) {
+          status = Status.Win
+        }
+
+        return {
+          ...prevState,
+          remainFlags: newRemainFlags,
+          status,
+        }
+      })
     }
   }
 
