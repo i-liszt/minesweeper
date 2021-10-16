@@ -18,6 +18,8 @@
   line-height: 100%;
   font-weight: bolder;
   cursor: pointer;
+  user-select: none;
+  -webkit-touch-callout: none;
 
   &--variant1 {
     color: #2295f3;

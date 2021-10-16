@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
+import { useLongPress } from 'use-long-press'
 import GridStyle from 'scss/components/grid.scss'
 import FlagIcon from 'assets/img/ic-flag.svg'
 import BombIcon from 'assets/img/ic-bomb.svg'
@@ -76,10 +77,7 @@ const Grid = ({
     }))
   }
 
-  const handleContextMenu = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    e.preventDefault()
-
+  const handleFlagged = () => {
     if (state.clicked || showMine) {
       return
     }
@@ -89,6 +87,15 @@ const Grid = ({
       marked: !prevState.marked,
     }))
   }
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    e.preventDefault()
+
+    handleFlagged()
+  }
+
+  const bind = useLongPress(!state.clicked ? handleFlagged : null)
 
   const gridClass: string = clsx(
     GridStyle.grid, {
@@ -105,6 +112,7 @@ const Grid = ({
     <button
       type="button"
       className={gridClass}
+      {...bind}
       onClick={handleClick}
       onContextMenu={handleContextMenu}
     >
