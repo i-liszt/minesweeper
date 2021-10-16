@@ -32,6 +32,27 @@ const MineMap = ({
   })
 
   useEffect(() => {
+    const newMap: GridData[][] = createMapFactory(rows, columns)
+    placeMines(newMap, minesCount)
+
+    const minesList: GridData[] = []
+    newMap.forEach((rowData: GridData[]) => {
+      rowData.forEach((grid: GridData) => {
+        if (grid.isMine) {
+          minesList.push(grid)
+        }
+      })
+    })
+
+    setState({
+      currentGridData: undefined,
+      prevGridData: undefined,
+      map: newMap,
+      minesList,
+    })
+  }, [rows, columns])
+
+  useEffect(() => {
     if (state.currentGridData && onChange) {
       onChange(
         state.currentGridData,
@@ -63,52 +84,31 @@ const MineMap = ({
     }))
   }
 
-  if (rows !== state.map.length || columns !== state.map[0].length) {
-    const newMap: GridData[][] = createMapFactory(rows, columns)
-    placeMines(newMap, minesCount)
-
-    const minesList: GridData[] = []
-    newMap.forEach((rowData: GridData[]) => {
-      rowData.forEach((grid: GridData) => {
-        if (grid.isMine) {
-          minesList.push(grid)
-        }
-      })
-    })
-
-    setState({
-      currentGridData: undefined,
-      prevGridData: undefined,
-      map: newMap,
-      minesList,
-    })
-  }
-
-  const mapUi: JSX.Element[] = state.map.map((rowData: GridData[], row: number) => (
-    // eslint-disable-next-line
-    <div key={`row_${row}`} className={MineMapStyle.row}>
-      {
-        rowData.map((gridData: GridData, column: number) => (
-          <Grid
-            // eslint-disable-next-line
-            key={`row_${row}_${column}`}
-            className={MineMapStyle.column}
-            adjacentMines={gridData.adjacentMines}
-            explored={gridData.explored}
-            flagged={gridData.flagged}
-            isMine={gridData.isMine}
-            showMine={showMine}
-            onClick={() => handleClick({ row, column })}
-            onFlagged={(flagged) => handleFlagged({ row, column }, flagged)}
-          />
-        ))
-      }
-    </div>
-  ))
-
   return (
     <div className={clsx(MineMapStyle['mine-map'], className)}>
-      { mapUi }
+      {
+        state.map.map((rowData: GridData[], row: number) => (
+          // eslint-disable-next-line
+          <div key={`row_${row}`} className={MineMapStyle.row}>
+            {
+              rowData.map((gridData: GridData, column: number) => (
+                <Grid
+                  // eslint-disable-next-line
+                  key={`${row}_${column}`}
+                  className={MineMapStyle.column}
+                  adjacentMines={gridData.adjacentMines}
+                  explored={gridData.explored}
+                  flagged={gridData.flagged}
+                  isMine={gridData.isMine}
+                  showMine={showMine}
+                  onClick={() => handleClick({ row, column })}
+                  onFlagged={(flagged) => handleFlagged({ row, column }, flagged)}
+                />
+              ))
+            }
+          </div>
+        ))
+      }
     </div>
   )
 }

@@ -17,17 +17,15 @@ const ControlsProps = {
 
 type ControlsState = {
   time: number,
-  currentLevel: string,
-  active: boolean | undefined | null
+  currentLevel: string
 }
 
 const Controls = ({
   className, level, remainFlags, running, onLevelChange,
 }: PropTypes.InferProps<typeof ControlsProps>) => {
-  const [{ time, currentLevel, active }, setState] = useState<ControlsState>({
+  const [{ time, currentLevel }, setState] = useState<ControlsState>({
     time: 0,
     currentLevel: level as string,
-    active: running,
   })
 
   useEffect(() => {
@@ -35,6 +33,13 @@ const Controls = ({
       onLevelChange(currentLevel)
     }
   }, [currentLevel])
+
+  useEffect(() => {
+    setState((prevState) => ({
+      ...prevState,
+      time: running ? 0 : prevState.time,
+    }))
+  }, [running])
 
   const handleTimeChange = (seconds: number) => {
     setState((prevState) => ({
@@ -47,23 +52,14 @@ const Controls = ({
     setState({
       time: 0,
       currentLevel: (event?.target as HTMLSelectElement).value,
-      active: false,
     })
-  }
-
-  if (active !== running) {
-    setState((prevState) => ({
-      ...prevState,
-      time: running ? 0 : prevState.time,
-      active: running,
-    }))
   }
 
   return (
     <div className={clsx(ControlsStyle.controls, className)}>
       <Timer
         seconds={time}
-        running={active}
+        running={running}
         onChange={handleTimeChange}
       />
       <Flag

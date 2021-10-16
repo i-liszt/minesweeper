@@ -15,8 +15,12 @@ const Timer = ({
   className, seconds, running, onChange,
 }: PropTypes.InferProps<typeof TimerProps>) => {
   const [time, setTime] = useState(seconds || 0)
-  const [prevSeconds, setPrevSeconds] = useState(0)
-  const displaySeconds = (time || 0).toString().padStart(3, '0')
+
+  useEffect(() => {
+    if (time !== seconds) {
+      setTime(seconds || 0)
+    }
+  }, [seconds])
 
   useEffect(() => {
     const intervalId: NodeJS.Timer = setInterval(() => {
@@ -35,10 +39,7 @@ const Timer = ({
     }
   }, [running, time, setTime, onChange])
 
-  if (seconds !== prevSeconds) {
-    setTime(seconds || 0)
-    setPrevSeconds(seconds || 0)
-  }
+  const displaySeconds = (time || 0).toString().padStart(3, '0')
 
   return (
     <div className={clsx(InfoStyle.info, className)}>
