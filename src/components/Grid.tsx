@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import GridStyle from 'scss/components/grid.scss'
@@ -16,15 +16,51 @@ const GridProps = {
   onFlagged: PropTypes.func,
 }
 
+type GridState = {
+  clicked: boolean,
+  marked: boolean
+}
+
 const Grid = ({
   className, adjacentMines, isMine, explored, flagged, showMine, onClick, onFlagged,
 }: PropTypes.InferProps<typeof GridProps>) => {
-  const [state, setState] = useState({
-    clicked: explored,
-    marked: flagged,
+  const [state, setState] = useState<GridState>({
+    clicked: explored!,
+    marked: flagged!,
   })
-  const [prevExplored, setPrevExplored] = useState(null)
-  const [prevFlagged, setPrevFlagged] = useState(null)
+
+  useEffect(() => {
+    if (state.clicked === explored && state.marked === flagged) {
+      return
+    }
+
+    const clicked = state.clicked !== explored ? explored : state.clicked
+    const marked = state.marked !== flagged ? flagged : state.marked
+    setState({
+      clicked: clicked!,
+      marked: clicked ? false : marked!,
+    })
+  }, [explored, flagged])
+
+  useEffect(() => {
+    if (state.clicked === explored) {
+      return
+    }
+
+    if (state.clicked && onClick) {
+      onClick(true, { explored: true, flagged: false })
+    }
+  }, [state.clicked])
+
+  useEffect(() => {
+    if (state.marked === flagged) {
+      return
+    }
+
+    if (onFlagged) {
+      onFlagged(state.marked, { explored: false, flagged: state.marked })
+    }
+  }, [state.marked])
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -34,14 +70,10 @@ const Grid = ({
       return
     }
 
-    setState({
+    setState((prevState) => ({
+      ...prevState,
       clicked: true,
-      marked: false,
-    })
-
-    if (onClick) {
-      onClick(true, { explored: true, flagged: false }, e)
-    }
+    }))
   }
 
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -56,10 +88,6 @@ const Grid = ({
       ...prevState,
       marked: !prevState.marked,
     }))
-
-    if (onFlagged) {
-      onFlagged(!state.marked, { explored: false, flagged: !state.marked }, e)
-    }
   }
 
   const gridClass: string = clsx(
@@ -72,22 +100,6 @@ const Grid = ({
     },
     className,
   )
-
-  if (prevExplored !== explored) {
-    setState({
-      clicked: explored,
-      marked: state.marked,
-    })
-    setPrevExplored(explored)
-  }
-
-  if (prevFlagged !== flagged) {
-    setState({
-      clicked: state.clicked,
-      marked: flagged,
-    })
-    setPrevFlagged(flagged)
-  }
 
   return (
     <button
