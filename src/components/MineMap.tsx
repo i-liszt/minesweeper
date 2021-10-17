@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import MineMapStyle from 'scss/components/mine-map.scss'
-import { createMapFactory, placeMines, exploreGrid } from '~/utils/mines'
+import {
+  createMapFactory, placeMines, exploreGrid, placeSingleMine,
+} from '~/utils/mines'
 import Grid from './Grid'
 
 export type MineMapState = {
@@ -63,12 +65,28 @@ const MineMap = ({
   }, [state.currentGridData])
 
   const handleClick = ({ row, column }: { row: number, column: number }): void => {
+    let { minesList } = state
+    if (!state.prevGridData && state.map[row][column].isMine) {
+      placeSingleMine(state.map)
+      state.map[row][column].isMine = false
+
+      minesList = []
+      state.map.forEach((rowData: GridData[]) => {
+        rowData.forEach((grid: GridData) => {
+          if (grid.isMine) {
+            minesList.push(grid)
+          }
+        })
+      })
+    }
+
     const copyGrid = { ...state.map[row][column] }
     exploreGrid(state.map[row][column], state.map)
     setState((prevState) => ({
       ...prevState,
       currentGridData: { ...state.map[row][column] },
       prevGridData: copyGrid,
+      minesList,
     }))
   }
 

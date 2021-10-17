@@ -95,7 +95,12 @@ const Grid = ({
     handleFlagged()
   }
 
-  const bind = useLongPress(!state.clicked ? handleFlagged : null)
+  const isMobile: boolean = /Mobi/i.test(window.navigator.userAgent)
+  const bind = useLongPress(() => {
+    if (isMobile && !state.clicked) {
+      handleFlagged()
+    }
+  })
 
   const gridClass: string = clsx(
     GridStyle.grid, {
@@ -114,7 +119,7 @@ const Grid = ({
       className={gridClass}
       {...bind}
       onClick={handleClick}
-      onContextMenu={handleContextMenu}
+      onContextMenu={!isMobile ? handleContextMenu : undefined}
     >
       {
         (!state.clicked && state.marked)
