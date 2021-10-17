@@ -28,7 +28,7 @@ A simple minesweeper game
 ### Introduction
 - The game includes 3 level: Easy, Medium, Hard
 - A user can explore a grid by clicking the grid
-- A user can put a flag on a grid by right-click
+- A user can put a flag on a grid by right-click, or long-press when playing with mobile
 - If a user clicks the map, the timer starts
 - If a user clicks a blank grid, show a number or mine or blank
 - When the clicked grid adjacent to mines, show numbers
@@ -37,6 +37,4 @@ A simple minesweeper game
 - When all mine grids are placed flags, then the user wins
 
 ### TODO
-- The first click should not be a mine
 - Modal component to display the result
-- Support mobile devices
