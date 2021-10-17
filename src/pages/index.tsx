@@ -42,17 +42,17 @@ export default () => {
     prevGrid: GridData,
     { minesList }: ({ minesList: GridData[] }),
   ) => {
-    if (!grid) {
+    if (!grid || state.status === Status.Win || state.status === Status.Lose) {
       return
     }
 
-    if (state.status !== Status.Running) {
+    if (state.status === Status.Stop) {
       setState((prevState) => ({
         ...prevState,
         remainFlags: grid.flagged ? prevState.remainFlags - 1 : prevState.remainFlags,
         status: grid.explored && grid.isMine ? Status.Stop : Status.Running,
       }))
-    } else if (grid) {
+    } else {
       setState((prevState) => {
         const isFlagChanged: boolean = grid.flagged !== prevGrid.flagged
         // eslint-disable-next-line no-nested-ternary
