@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkminesweeper=self.webpackChunkminesweeper||[]).push([[802],{799:()=>{}}]);
